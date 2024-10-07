@@ -1,0 +1,134 @@
+<resources>
+    <string name="app_name">StartReview</string>
+    <string name="no_result">No result found !</string>
+    <string name="summary_title">Summary</string>
+    <string name="pools_title">POOLS</string>
+    <string name="type_title">TYPE</string>
+    <string name="entrants_title">ENTRANTS</string>
+    <string name="progression_title">PROGRESSION</string>
+    <string name="progression_value">Pool to %s</string>
+    <string name="standings_title">Standings</string>
+    <string name="brackets_title">Brackets</string>
+    <string name="tournament_title">Tournament</string>
+    <string name="display_title">Display</string>
+    <string name="darkTheme_title">Dark Theme</string>
+    <string name="TournamentsByName">
+        query TournamentsByName($name: String) {
+            tournaments(query: {
+                page: 1
+                filter: {
+                    name: $name
+                    sortByScore: true
+                }
+            }) {
+                nodes {
+                    id
+                    name
+                    startAt
+                    venueAddress
+                    isOnline
+                    images(type:\"profile\"){
+                        url
+                    }
+                }
+            }
+        }
+    </string>
+    <string name="TournamentById">
+        query TournamentById($id: ID!) {
+            tournaments(query: {
+                page: 1
+                filter: {
+                    id: $id
+                }
+            }) {
+                nodes {
+                    name
+                    isOnline
+                    venueAddress
+                    numAttendees
+                    slug
+                    images(type:\"0\"){
+                        type
+                        url
+                    }
+                    events{
+                        id
+                        name
+                        startAt
+                        type
+                        videogame{
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    </string>
+    <string name="GetAttendees">
+        query GetAttendees($slug: String,$page: Int){
+            tournament(slug: $slug){
+                name
+                participants(query:{
+                    page: $page
+                    perPage: 25
+                }){
+                pageInfo{
+                    totalPages
+                }
+                nodes{
+                    gamerTag
+                    events{
+                        name
+                    }
+                    user{
+                        images(type:\"profile\"){
+                  	        url
+                        }
+                    }
+                }}
+            }
+        }
+    </string>
+    <string name="getEvent">
+        query getEvent($eventId: ID!) {
+          event(id: $eventId) {
+            id
+            name
+            startAt
+            type
+            state
+            videogame{
+              name
+              images(type:\"0\") {
+                type
+                url
+              }
+            }
+            phases{
+              name
+              groupCount
+              numSeeds
+              bracketType
+            }
+          }
+        }
+    </string>
+    <string name="TournamentsByIds">
+        query TournamentsByIds($ids: [ID!]!) {
+          tournaments(query: { page: 1, filter: { ids: $ids } }) {
+            nodes {
+              id
+              name
+              isOnline
+              venueAddress
+              numAttendees
+              slug
+              images(type:\"profile\"){
+                url
+              }
+            }
+          }
+        }
+    </string>
+</resources>
